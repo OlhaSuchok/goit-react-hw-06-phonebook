@@ -14,11 +14,9 @@ export function ContactList() {
 
   const applyFilter = () => {
     if (contactsFilter) {
-      const normalizedFilter = contactsFilter.toLowerCase();
-      const visivleContact = contacts.filter(contact =>
-        contact.name.toLowerCase().includes(normalizedFilter)
+      return contacts.filter(contact =>
+        contact.name.toLowerCase().includes(contactsFilter.toLowerCase())
       );
-      return visivleContact;
     }
     return contacts;
   };

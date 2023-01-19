@@ -7,6 +7,7 @@ import { FindText, FindValue } from './ContactFilter.styled';
 export function ContactFilter() {
   const contactsFilter = useSelector(setContactsFilter);
   const dispatch = useDispatch();
+
   return (
     <FindText>
       Find contacts by name

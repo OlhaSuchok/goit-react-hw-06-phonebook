@@ -18,7 +18,6 @@ export default function ContactForm() {
     const form = event.target;
     const name = form.elements.name.value;
     const number = form.elements.number.value;
-    form.reset();
 
     const newContact = { name, number, id: nanoid() };
     const isContact = contacts.find(
@@ -30,6 +29,8 @@ export default function ContactForm() {
     } else {
       dispatch(addContactAction(newContact));
     }
+
+    form.reset();
   };
 
   return (
