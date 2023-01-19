@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { Box } from 'components/Box/Box';
@@ -7,10 +7,16 @@ import { ContactFormTitle } from './ContactFormTitle/ContactFormTitle';
 import { ContactList } from './ContactList/ContactList';
 import { ContactFilter } from './ContactFilter/ContactFilter';
 // import useLocalStorage from './hooks/UseLocalStorage';
-import { increment, decrement } from 'redux/value/slice';
+import { increment, decrement } from 'redux/value/ValueSlice';
 import { addContact, removeContact } from 'redux/contact/ContactSlice';
+import { filterContacts } from 'redux/filters/filterSlice';
+import {
+  getCounterValue,
+  getContacts,
+  setContactsFilter,
+} from 'redux/selectors';
 
-const CONTACTS_LOCAL_STORAGE = 'contacts';
+// const CONTACTS_LOCAL_STORAGE = 'contacts';
 
 export default function PhoneBoock() {
   // const [contacts, setContacts] = useLocalStorage(CONTACTS_LOCAL_STORAGE, [
@@ -20,14 +26,16 @@ export default function PhoneBoock() {
   //   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   // ]);
 
-  const [filter, setFilter] = useState('');
+  // const [filter, setFilter] = useState('');
 
   const dispatch = useDispatch();
-  const value = useSelector(state => state.myValue);
-  const contacts = useSelector(state => state.contacts);
+  const counterValue = useSelector(getCounterValue);
+  const contacts = useSelector(getContacts);
+  const contactsFilter = useSelector(setContactsFilter);
 
   console.log('contacts', contacts);
-  console.log('myValye', value);
+  console.log('myValye', counterValue);
+  console.log('filter', contactsFilter);
 
   // const contact = useSelector(getContacts);
 
@@ -45,27 +53,12 @@ export default function PhoneBoock() {
       // });
       dispatch(addContact(newContact));
     }
-
-    // const name = event.currentTarget.elements.name.value;
-    // const number = event.currentTarget.elements.number.value;
-    // event.preventDefault();
-    // const form = event.target;
-    // dispatch(addContact(name, number));
-    // form.reset();
   };
 
-  // const handleSubmitNew = event => {
-  //   const name = event.currentTarget.elements.name.value;
-  //   const number = event.currentTarget.elements.number.value;
-
-  //   event.preventDefault();
-  //   const form = event.target;
-  //   dispatch(addContact(name, number));
-  //   form.reset();
-  // };
-
   const changeFilter = event => {
-    setFilter(event.target.value);
+    // setFilter(event.target.value);
+    dispatch(filterContacts(event.target.value));
+    console.log(contactsFilter);
   };
 
   const onRemoveBtn = id => {
@@ -74,7 +67,7 @@ export default function PhoneBoock() {
   };
 
   const applyFilter = () => {
-    const normalizedFilter = filter.toLowerCase();
+    const normalizedFilter = contactsFilter.toLowerCase();
     const visivleContact = contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
@@ -98,12 +91,12 @@ export default function PhoneBoock() {
         borderColor="border"
         borderRadius={8}
       >
-        <div>{value}</div>
+        <div>{counterValue}</div>
         <button onClick={() => dispatch(increment(10))}>Increment</button>
         <button onClick={() => dispatch(decrement(10))}>Decrement</button>
         <ContactFormTitle>PhoneBook</ContactFormTitle>
         <ContactForm onHandleSubmit={handleSubmit} />
-        <ContactFilter value={filter} onChange={changeFilter} />
+        <ContactFilter value={contactsFilter} onChange={changeFilter} />
         {contacts.length > 0 && <ContactFormTitle>Contacts</ContactFormTitle>}
         {contacts.length > 0 && (
           <ContactList contacts={applyFilter()} onRemoveBtn={onRemoveBtn} />

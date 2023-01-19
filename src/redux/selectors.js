@@ -1,2 +1,3 @@
-// export const getTasks = state => state.tasks;
-// export const getStatusFilter = state => state.filters.status;
+export const getCounterValue = state => state.myValue;
+export const getContacts = state => state.contacts;
+export const setContactsFilter = state => state.filter.filter;

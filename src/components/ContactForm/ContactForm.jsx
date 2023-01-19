@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 
 import {
   ContactFormWrapper,
@@ -8,31 +8,36 @@ import {
 } from './ContactForm.styled';
 
 export default function ContactForm({ onHandleSubmit }) {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  // const [name, setName] = useState('');
+  // const [number, setNumber] = useState('');
 
-  const handleChange = event => {
-    const { name, value } = event.target;
+  // const handleChange = event => {
+  //   const { name, value } = event.target;
 
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
+  //   switch (name) {
+  //     case 'name':
+  //       setName(value);
+  //       break;
 
-      case 'number':
-        setNumber(value);
-        break;
+  //     case 'number':
+  //       setNumber(value);
+  //       break;
 
-      default:
-        return;
-    }
-  };
+  //     default:
+  //       return;
+  //   }
+  // };
 
   const handleSubmit = event => {
     event.preventDefault();
+    const form = event.target;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+    form.reset();
+
     onHandleSubmit({ name, number });
-    setName('');
-    setNumber('');
+    // setName('');
+    // setNumber('');
   };
 
   return (
@@ -42,8 +47,8 @@ export default function ContactForm({ onHandleSubmit }) {
         <ContactFormField
           type="text"
           name="name"
-          value={name}
-          onChange={handleChange}
+          // value={name}
+          // onChange={handleChange}
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
@@ -54,8 +59,8 @@ export default function ContactForm({ onHandleSubmit }) {
         <ContactFormField
           type="tel"
           name="number"
-          value={number}
-          onChange={handleChange}
+          // value={number}
+          // onChange={handleChange}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
